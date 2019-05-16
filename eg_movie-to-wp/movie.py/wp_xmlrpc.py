@@ -47,11 +47,14 @@ class wp_push:
         if img_list:
             for i in range(len(img_list)):
                 img_name=img_list[i].split('/')[-1]
-                filename = './'+img_name
+                filename =img_list[i]
                 #上传的图片本地文件路径 
                 # prepare metadata
-                data = {'name': 'picture.jpg','type': 'image/jpeg',}
-                data['name']=img_name
+                data = {
+                        'name': img_name,
+                        'type': 'image/jpeg'
+                        }
+                #data['name']=img_name
             # read the binary file and let the XMLRPC library encode it into base64
                 with open(filename, 'rb') as img:
                     data['bits'] = xmlrpc_client.Binary(img.read())
@@ -110,7 +113,7 @@ class wp_push:
                 # prepare metadata
         #        data = {'name': 'picture.jpg','type': 'image/jpeg',}
         #        data['name']=img_name
-            # read the binary file and let the XMLRPC library encode it into base64
+        # read the binary file and let the XMLRPC library encode it into base64
         #        with open(filename,'rb') as img:
         #            data['bits'] = xmlrpc_client.Binary(img.read())
         #        response=self.wp.call(media.UploadFile(data))
@@ -124,11 +127,18 @@ class wp_push:
             with open(self.wp_log,'a+') as f:
                 f.writelines(str(postid)+'\n')
         return post_id,len(post.content)
+
     #下载图片到otl.ooo这域名下
-    def parse_img(self,post_id,img_list):
+    def parse_img(self,post_id,img_list,local_abspath):
+        if type(post_id) is not str:
+            post_id=str(post_id)
+        if not os.path.isdir(local_abspath):
+            os.makedirs(local_abspath)
         new_img_list=[]
         for img_url in img_list:
-            img_local_path='/www/wwwroot/otl.ooo/IMAGE/'+str(post_id)
+            img_url=img_url.split('!')[0]
+            print('开始下载图片:%s' %img_url)
+            img_local_path=local_abspath+post_id
             img_local_absolutePath=img_local_path+'/'+img_url.split('?')[0].split('/')[-1]
             #print('图片保存地址：',img_url,img_local_path,img_local_absolutePath)
             if not os.path.isdir(img_local_path):
@@ -137,8 +147,10 @@ class wp_push:
                 urllib.request.urlretrieve(img_url,img_local_absolutePath)
             except:
                 print('图片下载失败:',img_url)
-            new_img_list.append(img_local_absolutePath.replace('/www/wwwroot/','http://'))
+            #new_img_list.append(img_local_absolutePath.replace('/www/wwwroot/','http://'))
+            new_img_list.append(img_local_absolutePath)
         return new_img_list
+
     #删除制定目录
     def trash_img(self,post_id):
         path='/www/wwwroot/otl.ooo/IMAGE/'+str(post_id)

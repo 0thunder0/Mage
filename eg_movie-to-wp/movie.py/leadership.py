@@ -1,4 +1,4 @@
-import os
+import os,time
 from wp_xmlrpc import wp_push
 from Eurl_yyetss import mv_plugin
 
@@ -9,39 +9,48 @@ class leaderShip:
         self.loginUser=loginUser
         self.loginPw=loginPw
         self.wpLog=wpLog
-        #采集前的初始化
-        self.mv=mv_plugin()
-        url='http://www.yyetss.com'
-        self.urls=self.mv.categroryParse(url)
         #提取缓存文件，leaderShip.log
         self.cacheD=[]
-        if not os.path.isfile('leaderShip.log'):
-            os.mknod('leaderShip.log')
-        else:
-            with open('leaderShip.log','r+') as f:
+        if os.path.isfile(self.wpLog):
+            with open(self.wpLog,'r+') as f:
                 self.cacheD=f.readlines()
             for n in range(len(self.cacheD)):
                 self.cacheD[n]=self.cacheD[n].replace('\n','')
+        self.wp=wp_push(self.loginUrl,self.loginUser,self.loginPw,self.wpLog)
 
-    def push_func(self):
-        wp=wp_push(self.loginUrl,self.loginUser,self.loginPw,self.wpLog)
+    def sp_posts(self):
+        #采集前的初始化
+        mv=mv_plugin()
+        plotUrls=mv.categoryParse()
         while True:
-            plots=next(self.urls)
-            plot=self.mv.contentParse(plots)
-            # return url,title,feature_img,imgs,staff,plot,downloadArea
-            url=plot[0]
-            title=plot[1]
-            feature_img=plot[2]
-            img_list=plot[3]
-            staff=plot[4]
-            content=plot[5]
-            download_area=plot[6]
-            tag_list=[]
-            category=''
-            content=content+'<br>'+download_area
-            #push_posts(self,title,feature_img,staff,content,img_list,tag_list,category)
-            wp.push_posts(title,feature_img,staff,content,img_list,tag_list,category)
-            break
+            plots=next(plotUrls)
+            plot=mv.contentParse(plots)
+            self.pushToWp(plot)
+
+    def pushToWp(self,*plot):
+        plot=plot[0]
+        url=plot[0]
+        title=plot[1]
+        feature_img=plot[2]
+        img_list=plot[3]
+        staff=plot[4]
+        content=plot[5]
+        download_area=plot[6]
+        tag_list=[]
+        category='333'
+        content=content+'<br>'+download_area
+        #图片本地化
+        if feature_img:
+            if type(feature_img)==list:
+                img_list=img_list+feature_img
+            else:
+                img_list.append(feature_img)
+                feature_img=''
+        nowTime=time.strftime('%Y%m%d',time.localtime(time.time()))
+        local_abspath='/www/wwwroot/otl.ooo/movie_img/'
+        img_list=self.wp.parse_img(nowTime,img_list,local_abspath)
+        #push_posts(self,title,feature_img,staff,content,img_list,tag_list,category)
+        self.wp.push_posts(title,feature_img,staff,content,img_list,tag_list,category)
 
 if __name__=='__main__':
     loginUrl='http://if.fyi/xmlrpc.php'
@@ -49,4 +58,5 @@ if __name__=='__main__':
     loginPw='HZGWYpCtrPWZJ7kA'
     wpLog='wo_log.log'
     leader=leaderShip(loginUrl,loginUser,loginPw,wpLog)
-    leader.push_func()
+    #leader.push_func()
+    leader.sp_posts()

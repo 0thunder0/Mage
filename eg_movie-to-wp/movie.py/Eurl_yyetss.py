@@ -71,7 +71,8 @@ class mv_plugin:
             for w in range(len(self.shieldWord)):
                 self.shieldWord[w]=self.shieldWord[w].replace('\n','')
             
-    def categroryParse(self,urls):
+    def categoryParse(self):
+        urls='http://www.yyetss.com'
         req=urllib.request.Request(urls,headers=self.headers)
         data = urllib.request.urlopen(req).read()
         data=pq(data)
@@ -97,7 +98,7 @@ class mv_plugin:
         data=urllib.request.urlopen(req).read()
         data=pq(data)
         title=data('.page-header').text()
-        featureImg=data('.container:eq(2) .row .col-sm-9 .row .col-sm-3 img').attr('src')
+        feature_img=data('.container:eq(2) .row .col-sm-9 .row .col-sm-3 img').attr('src')
         plot=data('.container:eq(2) .row .col-sm-9 .row:eq(1)').text()
         #plot=shield(plot)
         downloadArea=data('.container:eq(2) .row .col-sm-9 .row:eq(3)').html()
