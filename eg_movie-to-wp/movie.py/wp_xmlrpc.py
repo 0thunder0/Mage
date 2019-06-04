@@ -73,14 +73,16 @@ class wp_push:
             '''
         postid = self.wp.call(NewPost(post))        
         print('正在发布[ID]:%s,[标题]:%s' %(postid,post.title))
-        if os.path.isfile(self.wp_log):
-            with open(self.wp_log,'a+') as f:
-                f.writelines(str(postid)+'\n')
-        return postid,len(post.content)
+        #  if os.path.isfile(self.wp_log):
+            #  with open(self.wp_log,'a+') as f:
+                #  f.writelines(str(postid)+'\n')
+        return postid
 
-    def edit_post(self,post_id,title,content,img_list,tag_list,categrory):
+    def edit_posts(self,post_id,title,feature_img,staff,content,img_list,tag_list,categrory):
         post = WordPressPost()
         post.title=title
+        if staff:
+            content=staff+'<br>'+content
         post.content=content
         post.categrory=[]
         post.categrory.append(categrory)
@@ -94,6 +96,8 @@ class wp_push:
                 'post_tag':'',
                 'category':post.categrory
             }
+        #img_list设置为空，避免图片重复上传
+        img_list=[]
         if img_list:
             img_name=img_list[-1].split('/')[-1]
             filename=img_list[-1].replace('http://','/www/wwwroot/')
@@ -125,7 +129,7 @@ class wp_push:
         print('正在修正[ID]:%s,[标题]:%s' %(post_id,post.title))
         if os.path.isfile(self.wp_log):
             with open(self.wp_log,'a+') as f:
-                f.writelines(str(postid)+'\n')
+                f.writelines(str(post_id)+'\n')
         return post_id,len(post.content)
 
     #下载图片到otl.ooo这域名下
