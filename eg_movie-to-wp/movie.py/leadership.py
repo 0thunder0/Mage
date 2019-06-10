@@ -33,24 +33,26 @@ class leaderShip:
         staff=plot[4]
         content=plot[5]
         download_area=plot[6]
-
-        post_cache=url+'_'+str(len(content+download_area))
-        x=0
-        if self.cacheD:
-            for n in range(len(self.cacheD)):
-                if re.search(url,self.cacheD[n]):
-                    if re.search(post_cache,self.cacheD[n]):
-                        print('内容完全没有更新 ！！！')
-                        x=x+1
-                        break
-                    else:
-                        self.editToWp(plot)
-                        x=x+1
-                        break
-            if x<1:
+        try:
+            post_cache=url+'_'+str(len(content+download_area))
+            x=0
+            if self.cacheD:
+                for n in range(len(self.cacheD)):
+                    if re.search(url,self.cacheD[n]):
+                        if re.search(post_cache,self.cacheD[n]):
+                            print('内容完全没有更新 ！！！')
+                            x=x+1
+                            break
+                        else:
+                            self.editToWp(plot)
+                            x=x+1
+                            break
+                if x<1:
+                    self.pushToWp(plot)
+            else:
                 self.pushToWp(plot)
-        else:
-            self.pushToWp(plot)
+        except:
+            print('没有采集到下载资源……')
 
     def editToWp(self,*plot):
         plot=plot[0]
