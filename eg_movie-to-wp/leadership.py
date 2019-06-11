@@ -63,7 +63,6 @@ class leaderShip:
         staff=plot[4]
         content=plot[5]
         download_area=plot[6]
-        category='444'
         #寻找已发布文章id
         post_id=0
         for n in range(len(self.cacheD)):
@@ -79,6 +78,7 @@ class leaderShip:
         feature_img=''
         img_list=[]
         tag_list=[]
+        category='美剧'
         self.wp.edit_posts(post_id,title,feature_img,staff,content,img_list,tag_list,category)
         #将新的缓存存入缓存文件
         #print('缓存url文件:',self.cacheD)
@@ -95,7 +95,7 @@ class leaderShip:
         content=plot[5]
         download_area=plot[6]
         tag_list=[]
-        category='333'
+        category='美剧'
         post_content=content+'<br>'+download_area
         #图片本地化
         if feature_img:
@@ -120,7 +120,7 @@ if __name__=='__main__':
     loginUrl='http://7oh.net/xmlrpc.php'
     loginUser='edjo@7oh.net'
     loginPw='43PvHfxsfqCIl*5MFk'
-    wpLog='wo_log.log'
+    wpLog='7oh_net.log'
     leader=leaderShip(loginUrl,loginUser,loginPw,wpLog)
     #leader.push_func()
     leader.sp_posts()
