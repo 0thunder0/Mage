@@ -80,7 +80,7 @@ class mv_plugin:
         detailUrl=[]
         for item in catItems:
             contentUrl=item('a').attr('href')
-            if not re.search('urls',contentUrl):
+            if not re.search(urls,contentUrl):
                 contentUrl=urls+contentUrl
             #print(contentUrl)
             yield contentUrl
