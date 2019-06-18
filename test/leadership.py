@@ -127,6 +127,10 @@ if __name__=='__main__':
     loginUser='1tv_wang'
     loginPw='zBrDBmBjHHeJfka6'
     wpLog='1tv_wang.log'
+    loginUrl='http://7oh.net/xmlrpc.php'
+    loginUser='edjo@7oh.net'
+    loginPw='43PvHfxsfqCIl*5MFk'
+    wpLog='7oh.log'
     leader=leaderShip(loginUrl,loginUser,loginPw,wpLog)
     #leader.push_func()
     leader.sp_posts()
