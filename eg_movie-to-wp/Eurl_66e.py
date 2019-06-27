@@ -111,18 +111,18 @@ class Eurl_66e:
         downloadAreas=data('#text table td').items()
         downloadArea=''
         for d in downloadAreas:
-            if 'www.66s.cc' not in d.html():
+            if 'www' not in d.html():
                 downloadArea=downloadArea+d.html()+'<hr>'
         
         category=data('.contentinfo h2 a:eq(1)').text()
-        #  print(url)
-        #  print(title)
-        #  print(feature_img)
-        #  print(imgs)
-        #  print(staff)
-        #  print(plot)
-        #  print(downloadArea)
-        #  print(category)
+        # print(url)
+        # print(title)
+        # print(feature_img)
+        # print(imgs)
+        # print(staff)
+        # print(plot)
+        # print(downloadArea)
+        # print(category)
         return url,title,feature_img,imgs,staff,plot,downloadArea,category
 
     def shield(self,*args):

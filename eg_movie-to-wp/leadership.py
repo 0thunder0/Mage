@@ -23,13 +23,16 @@ class leaderShip:
         mv2=Eurl_66e()
         plot1Urls=mv1.categoryParse()
         plot2Urls=mv2.category66e()
-        while True:
-            plots1=next(plot1Urls)
-            plots2=next(plot2Urls)
-            plot1=mv1.contentParse(plots1)
-            plot2=mv2.content66e(plots2)
-            self.wpSched(plot1)
-            self.wpSched(plot2)
+        try:
+            while True:
+                plots1=next(plot1Urls)
+                plots2=next(plot2Urls)
+                plot1=mv1.contentParse(plots1)
+                plot2=mv2.content66e(plots2)
+                self.wpSched(plot1)
+                self.wpSched(plot2)
+        except:
+            print('本次更新已结束。。。')
 
     def wpSched(self,plot):
         url=plot[0]
@@ -69,6 +72,7 @@ class leaderShip:
         staff=plot[4]
         content=plot[5]
         download_area=plot[6]
+        print(download_area)
         #寻找已发布文章id
         post_id=0
         for n in range(len(self.cacheD)):
@@ -85,11 +89,16 @@ class leaderShip:
         img_list=[]
         tag_list=[]
         category='美剧'
+        content=content+'<hr><div id="js_down">'+download_area+'</div>'
         self.wp.edit_posts(post_id,title,feature_img,staff,content,img_list,tag_list,category)
         #将新的缓存存入缓存文件
         #print('缓存url文件:',self.cacheD)
+        temp_cache=[]
+        for n in range(len(self.cacheD)):
+            if len(self.cacheD[n]) != 1:
+                temp_cache.append(self.cache[n])
         with open(self.wpLog,'w+') as f:
-            f.writelines(self.cacheD)
+            f.writelines(temp_cache)
 
     def pushToWp(self,*plot):
         plot=plot[0]
@@ -102,7 +111,7 @@ class leaderShip:
         download_area=plot[6]
         tag_list=[]
         category='美剧'
-        post_content=content+'<br>'+download_area
+        post_content=content+'<hr><div id="js_down">'+download_area+'</div>'
         #图片本地化
         if feature_img:
             if type(feature_img)==list:

@@ -87,7 +87,7 @@ class tim_collect:
         #print(post_title)
         #采集文章文字内容
         content_text=page_data('.mt10').text()
-        content_text=self.zhconv_convert(content_text).replace('\n\n','\n')+'\n'
+        content_text=self.zhconv_convert(content_text).replace('\n\n','\n')+'<hr>'
         #print(content_text)
         #单独拎出图片地址
         img_list=[]

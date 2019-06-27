@@ -93,6 +93,7 @@ class mv_plugin:
         staff=''
         plot=''
         downloadArea=''
+        category=''
         # ______________
         req=urllib.request.Request(urls,headers=self.headers)
         data=urllib.request.urlopen(req).read()
@@ -101,8 +102,25 @@ class mv_plugin:
         feature_img=data('.container:eq(2) .row .col-sm-9 .row .col-sm-3 img').attr('src')
         plot=data('.container:eq(2) .row .col-sm-9 .row:eq(1)').text()
         #plot=shield(plot)
-        downloadArea=data('.container:eq(2) .row .col-sm-9 .row:eq(3)').html()
-        return url,title,feature_img,imgs,staff,plot,downloadArea
+        #downloadArea=data('.container:eq(2) .row .col-sm-9 .row:eq(3)').html()
+        
+        Areas=data('.container:eq(2)  .tab_set_info').items()
+        for A in Areas:
+            As=A('li').items()
+            downloadArea=downloadArea+'<p>下载地址：</p><hr>'
+            for Ass in As:
+                downloadArea=downloadArea+Ass.html()+'<hr>'
+
+        category=data('.breadcrumb li:eq(1)').text()
+        # print(url)
+        # print(title)
+        # print(feature_img)
+        # print(imgs)
+        # print(staff)
+        # print(plot)
+        # print(downloadArea)
+        # print(category)
+        return url,title,feature_img,imgs,staff,plot,downloadArea,category
     
     def shield(self,*args):
         for content in args:
@@ -111,7 +129,7 @@ class mv_plugin:
             
 if __name__=='__main__':
     mv=mv_plugin()
-    urlList=mv.categroryParse('http://www.yyetss.com')
+    urlList=mv.categoryParse()
     while True:
         url=next(urlList)
         plot=mv.contentParse(url)
