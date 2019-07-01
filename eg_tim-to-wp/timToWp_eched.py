@@ -70,7 +70,7 @@ def fun_c():
 def dojob():
     #创建调度器：BlockingScheduler
     sched = BlockingScheduler()
-    intc=random.randint(30,60)
+    intc=random.randint(30,59)
     sched.add_job(fun_c,'cron',hour=22, minute=intc)
     sched.start()
 if __name__=='__main__':

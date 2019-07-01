@@ -12,9 +12,17 @@ class leaderShip:
         self.wpLog=wpLog
         #提取缓存文件，leaderShip.log
         self.cacheD=[]
+        temp_cache=[]
+
         if os.path.isfile(self.wpLog):
             with open(self.wpLog,'r+') as f:
                 self.cacheD=f.readlines()
+
+        for n in range(len(self.cacheD)):
+            if len(self.cacheD[n]) > 10:
+                temp_cache.append(self.cacheD[n])
+        self.cacheD=temp_cache
+        
         self.wp=wp_push(self.loginUrl,self.loginUser,self.loginPw,self.wpLog)
 
     def sp_posts(self):
@@ -72,14 +80,14 @@ class leaderShip:
         staff=plot[4]
         content=plot[5]
         download_area=plot[6]
-        print(download_area)
+        #  print(download_area)
         #寻找已发布文章id
         post_id=0
         for n in range(len(self.cacheD)):
             if re.search(url,self.cacheD[n]):
                 post_ids=self.cacheD[n].split('_')[-1].replace('\n','')
                 post_id=int(post_ids)
-                print('已发布文章id',post_id,type(post_id))
+                #print('已发布文章id',post_id,type(post_id))
                 #用最新的文章情况替换掉老的
                 self.cacheD[n]=url+'_'+str(len(content+download_area))+'_'+str(post_id)+'\n'
             else:
@@ -93,12 +101,8 @@ class leaderShip:
         self.wp.edit_posts(post_id,title,feature_img,staff,content,img_list,tag_list,category)
         #将新的缓存存入缓存文件
         #print('缓存url文件:',self.cacheD)
-        temp_cache=[]
-        for n in range(len(self.cacheD)):
-            if len(self.cacheD[n]) != 1:
-                temp_cache.append(self.cache[n])
         with open(self.wpLog,'w+') as f:
-            f.writelines(temp_cache)
+            f.writelines(self.cacheD)
 
     def pushToWp(self,*plot):
         plot=plot[0]
