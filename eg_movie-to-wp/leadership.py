@@ -136,7 +136,7 @@ class leaderShip:
             f.writelines(self.cacheD)
 
 if __name__=='__main__':
-    loginUrl='http://1tv.wang/xmlrpc.php'
+    loginUrl='https://1tv.wang/xmlrpc.php'
     loginUser='1tv_wang'
     loginPw='zBrDBmBjHHeJfka6'
     wpLog='1tv_wang.log'
