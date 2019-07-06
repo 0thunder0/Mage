@@ -2,7 +2,7 @@ import time,datetime,os,random
 from apscheduler.schedulers.blocking import BlockingScheduler
 
 def func():
-    cmd='python leadership.py'
+    cmd='python leadership-USshow.py'
     os.system(cmd)
 
 def dojob():

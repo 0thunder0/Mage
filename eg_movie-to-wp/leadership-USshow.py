@@ -136,10 +136,10 @@ class leaderShip:
             f.writelines(self.cacheD)
 
 if __name__=='__main__':
-    loginUrl='https://1tv.wang/xmlrpc.php'
-    loginUser='1tv_wang'
-    loginPw='zBrDBmBjHHeJfka6'
-    wpLog='1tv_wang.log'
+    loginUrl='http://if.fyi/xmlrpc.php'
+    loginUser='if_fyi'
+    loginPw='ZjmmDdZpaa5T57aA'
+    wpLog='if_fyi.log'
     leader=leaderShip(loginUrl,loginUser,loginPw,wpLog)
     #leader.push_func()
     leader.sp_posts()
