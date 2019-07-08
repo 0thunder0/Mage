@@ -102,8 +102,8 @@ class Eurl_80ying_dm:
         
         title=data('.font14w').text()
         feature_img=data('#minfo .img img').attr('src')        
-        if 'http' not in feature_img:
-            feature_img='http'+feature_img
+        if feature_img and 'http' not in feature_img:
+            feature_img='http:'+feature_img
         plot=data('#movie_content').text().replace('80s高清电影下载网','')+'<hr>'
         staff=data('.info span:eq(2)').text()
         #plot=shield(plot)
