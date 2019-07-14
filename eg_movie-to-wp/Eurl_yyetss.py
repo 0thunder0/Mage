@@ -112,14 +112,14 @@ class mv_plugin:
                 downloadArea=downloadArea+Ass.html()+'<hr>'
 
         category=data('.breadcrumb li:eq(1)').text()
-        # print(url)
-        # print(title)
-        # print(feature_img)
-        # print(imgs)
-        # print(staff)
-        # print(plot)
-        # print(downloadArea)
-        # print(category)
+        #  print(url)
+        #  print(title)
+        #  print(feature_img)
+        #  print(imgs)
+        #  print(staff)
+        #  print(plot)
+        #  print(downloadArea)
+        #  print(category)
         return url,title,feature_img,imgs,staff,plot,downloadArea,category
     
     def shield(self,*args):

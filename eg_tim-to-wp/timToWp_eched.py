@@ -48,8 +48,10 @@ def fun_c():
             wp.trash_img(int(post_id))
             img_list=wp.parse_img(post_id,img_list)
             print(len(img_list),'-文章中图片数量')
+            text=text+'<div class="wpImgFluid">'
             for img in img_list:
                 text=text+'<img src="'+img+'" class="img-fluid">'
+            text=text+'</div>'
             wp.edit_post(post_id,title,text,img_list,tag,cat)
             for n in range(len(wp_post_list)-1):
                 wp_post_list[n]=wp_post_list[n+1]
@@ -61,8 +63,10 @@ def fun_c():
             post=wp.push_posts(title,text,[],tag,cat)
             post_id=post[0]
             img_list=wp.parse_img(post_id,img_list)
+            text=text+'<div class="wpImgFluid">'
             for img in img_list:
                 text=text+'<img src="'+img+'" class="img-fluid">'
+            text=text+'</div>'
             #print(text)
             wp.edit_post(post_id,title,text,img_list,tag,cat)
             with open(wp_log,'a+') as f:

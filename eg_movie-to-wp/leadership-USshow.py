@@ -37,6 +37,7 @@ class leaderShip:
                 plots2=next(plot2Urls)
                 plot1=mv1.contentParse(plots1)
                 plot2=mv2.content66e(plots2)
+                #  print(plot1,plot2)
                 self.wpSched(plot1)
                 self.wpSched(plot2)
         except:
@@ -98,14 +99,16 @@ class leaderShip:
         tag_list=[]
         category='美剧'
         content=content+'<hr><div id="js_down">'+download_area+'</div>'
-        self.wp.edit_posts(post_id,title,feature_img,staff,content,img_list,tag_list,category)
+        if title and content and feature_img:
+            self.wp.edit_posts(post_id,title,feature_img,staff,content,img_list,tag_list,category)
         #将新的缓存存入缓存文件
-        #print('缓存url文件:',self.cacheD)
-        with open(self.wpLog,'w+') as f:
-            f.writelines(self.cacheD)
+            #print('缓存url文件:',self.cacheD)
+            with open(self.wpLog,'w+') as f:
+                f.writelines(self.cacheD)
 
     def pushToWp(self,*plot):
         plot=plot[0]
+        #  print(plot)
         url=plot[0]
         title=plot[1]
         feature_img=plot[2]
@@ -138,7 +141,7 @@ class leaderShip:
 if __name__=='__main__':
     loginUrl='https://1tv.wang/xmlrpc.php'
     loginUser='1tv_wang'
-    loginPw='JgJE(DsoIFX#(TsZ!p))'
+    loginPw='JgJE(DsoIFX#(TsZ!p'
     wpLog='1tv_wang.log'
     leader=leaderShip(loginUrl,loginUser,loginPw,wpLog)
     #leader.push_func()

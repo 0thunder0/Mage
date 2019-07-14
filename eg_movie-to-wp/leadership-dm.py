@@ -28,10 +28,13 @@ class leaderShip_dm:
         #采集前的初始化
         mv=Eurl_80ying_dm()
         plotUrls=mv.cat_80ying_dm()
-        while True:
-            plots=next(plotUrls)
-            plot=mv.content_80ying_dm(plots)
-            self.wpSched(plot)
+        try:
+            while True:
+                plots=next(plotUrls)
+                plot=mv.content_80ying_dm(plots)
+                self.wpSched(plot)
+        except:
+            print('本次动漫板块更新完全')
 
     def wpSched(self,plot):
         url=plot[0]
@@ -89,11 +92,15 @@ class leaderShip_dm:
         img_list=[]
         tag_list=[]
         content=content+'<hr><div id="js_down">'+download_area+'</div>'
-        self.wp.edit_posts(post_id,title,feature_img,staff,content,img_list,tag_list,category)
+        category='动漫'
+        if len(title):
+            self.wp.edit_posts(post_id,title,feature_img,staff,content,img_list,tag_list,category)
         #将新的缓存存入缓存文件
         #print('缓存url文件:',self.cacheD)
-        with open(self.wpLog,'w+') as f:
-            f.writelines(self.cacheD)
+            with open(self.wpLog,'w+') as f:
+                f.writelines(self.cacheD)
+        else:
+            print(url,'文章修正失败，内容采集不到',title)
 
     def pushToWp(self,*plot):
         plot=plot[0]
@@ -119,6 +126,7 @@ class leaderShip_dm:
         local_abspath='/www/wwwroot/otl.ooo/movie_img/'
         img_list=self.wp.parse_img(nowTime,img_list,local_abspath)
         #push_posts(self,title,feature_img,staff,content,img_list,tag_list,category)
+        category='动漫'
         post_id=self.wp.push_posts(title,feature_img,staff,post_content,img_list,tag_list,category)
         cache_temp=url+'_'+str(len(content+download_area))+'_'+str(post_id)+'\n'
         self.cacheD.append(cache_temp)
@@ -133,7 +141,7 @@ if __name__=='__main__':
     #  wpLog='if_fyi.log'
     loginUrl='https://1tv.wang/xmlrpc.php'
     loginUser='1tv_wang'
-    loginPw='JgJE(DsoIFX#(TsZ!p))'
+    loginPw='JgJE(DsoIFX#(TsZ!p'
     wpLog='1tv_wang.log'
     leader=leaderShip_dm(loginUrl,loginUser,loginPw,wpLog)
     #leader.push_func()
