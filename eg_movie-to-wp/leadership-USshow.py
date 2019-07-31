@@ -99,7 +99,7 @@ class leaderShip:
         tag_list=[]
         category='美剧'
         content=content+'<hr><div id="js_down">'+download_area+'</div>'
-        if title and content and feature_img:
+        if title and content and feature_img and download_area:
             self.wp.edit_posts(post_id,title,feature_img,staff,content,img_list,tag_list,category)
         #将新的缓存存入缓存文件
             #print('缓存url文件:',self.cacheD)
@@ -131,12 +131,13 @@ class leaderShip:
         local_abspath='/www/wwwroot/otl.ooo/movie_img/'
         img_list=self.wp.parse_img(nowTime,img_list,local_abspath)
         #push_posts(self,title,feature_img,staff,content,img_list,tag_list,category)
-        post_id=self.wp.push_posts(title,feature_img,staff,post_content,img_list,tag_list,category)
-        cache_temp=url+'_'+str(len(content+download_area))+'_'+str(post_id)+'\n'
-        self.cacheD.append(cache_temp)
+        if title and content and feature_img and download_area:
+            post_id=self.wp.push_posts(title,feature_img,staff,post_content,img_list,tag_list,category)
+            cache_temp=url+'_'+str(len(content+download_area))+'_'+str(post_id)+'\n'
+            self.cacheD.append(cache_temp)
         #print('缓存url文件:',self.cacheD)
-        with open(self.wpLog,'w+') as f:
-            f.writelines(self.cacheD)
+            with open(self.wpLog,'w+') as f:
+                f.writelines(self.cacheD)
 
 if __name__=='__main__':
     loginUrl='https://1tv.wang/xmlrpc.php'
