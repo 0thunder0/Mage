@@ -163,14 +163,13 @@ if __name__=='__main__':
         num=1
         while True:
             url=next(urlList)
-            print(url)
+            #print(url)
             t=random.randint(4,20)
             time.sleep(t)
             plot=thz.thz_content(url)
             print('第%s项：' %num,plot)
             num=num+1
-            cache_url.append(plot[0])
+            with open(cache_file,'a+') as f:
+                f.writelines(plot[0]+'\n')
     except:
-        print(cache_url)
-        with open(cache_file,'a+') as f:
-            f.writelines(cache_url)
+        print('更新完成')
