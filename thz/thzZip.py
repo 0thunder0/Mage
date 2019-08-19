@@ -76,7 +76,7 @@ class thz_torrent:
         urls=[]
         main_url='http://thz5.cc/'
         for n in range(pages):
-            urls.append('http://thz5.cc/forum-181-%s.html' %n)
+            urls.append('http://thz5.cc/forum-220-%s.html' %n)
         self.mainUrl=main_url
         for url in urls:
             req=urllib.request.Request(url,headers=self.headers)
@@ -116,12 +116,12 @@ class thz_torrent:
         p1_count=0
         p2_count=0
         try:
-            p1=re.findall('出演者：(.*?)\n',staff)[0].strip()
+            p1=re.findall('出演者：(.*?)\n',staff)[0].strip().split(' ')[0]
             p1_count=1
         except:
             p1_count=0
         try:
-            p2=re.findall('演出：(.*?)\n',staff)[0].strip()
+            p2=re.findall('演出：(.*?)\n',staff)[0].strip().split(' ')[0]
             p2_count=1
         except:
             p2_count=0
@@ -157,19 +157,16 @@ class thz_torrent:
 if __name__=='__main__':
     cache_file='zip_cache.log'
     thz=thz_torrent(cache_file)
-    urlList=thz.thz_category(2)
+    urlList=thz.thz_category(517)
     cache_url=[]
-    try:
-        num=1
-        while True:
-            url=next(urlList)
-            #print(url)
-            t=random.randint(4,20)
-            time.sleep(t)
-            plot=thz.thz_content(url)
-            print('第%s项：' %num,plot)
-            num=num+1
-            with open(cache_file,'a+') as f:
-                f.writelines(plot[0]+'\n')
-    except:
-        print('更新完成')
+    num=1
+    while True:
+        url=next(urlList)
+        #print(url)
+        t=random.randint(4,10)
+        time.sleep(t)
+        plot=thz.thz_content(url)
+        print('第%s项：' %num,plot)
+        num=num+1
+        with open(cache_file,'a+') as f:
+            f.writelines(plot[0]+'\n')
