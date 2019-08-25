@@ -137,7 +137,10 @@ class thz_torrent:
         for item in img_list:
             img_url_temp=item.attr('zoomfile')
             imgs.append(img_url_temp)
-        downloadArea=self.mainUrl+data('.t_fsz:eq(0) .attnm a').attr('href').replace('imc_attachad-ad.html?','forum.php?mod=attachment&')
+        torrent_down=data('.t_fsz:eq(0) .attnm a').html()
+        #  print('采集不到种子：',url,torrent_down)
+        if torrent_down:
+            downloadArea=self.mainUrl+data('.t_fsz:eq(0) .attnm a').attr('href').replace('imc_attachad-ad.html?','forum.php?mod=attachment&')
         #print('内容页处理:',title,imgs,downloadArea)
         #_______________
         if ']' in title:
@@ -146,7 +149,9 @@ class thz_torrent:
         else:
             torrent_name=title
         torrent_path='./'+torrent_name
-        urllib.request.urlretrieve(downloadArea,'./'+torrent_name+'.torrent')
+
+        if downloadArea:
+            urllib.request.urlretrieve(downloadArea,'./'+torrent_name+'.torrent')
         
         for img_down in imgs:
             if img_down:
@@ -164,7 +169,7 @@ if __name__=='__main__':
         url=next(urlList)
         #print(url)
         t=random.randint(4,10)
-        time.sleep(t)
+        #  time.sleep(t)
         plot=thz.thz_content(url)
         print('第%s项：' %num,plot)
         num=num+1

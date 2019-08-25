@@ -31,17 +31,21 @@ class leaderShip:
         mv2=Eurl_66e()
         plot1Urls=mv1.categoryParse()
         plot2Urls=mv2.category66e()
-        try:
-            while True:
-                plots1=next(plot1Urls)
-                plots2=next(plot2Urls)
+        while True:
+            plots1=next(plot1Urls)
+            try:
                 plot1=mv1.contentParse(plots1)
-                plot2=mv2.content66e(plots2)
-                #  print(plot1,plot2)
                 self.wpSched(plot1)
+            except:
+                print(plots1,'该页出现错误')
+            plots2=next(plot2Urls)
+            try:
+                plot2=mv2.content66e(plots2)
                 self.wpSched(plot2)
-        except:
-            print('本次更新已结束。。。')
+            except:
+                print(plots2,'该页出现错误')
+            
+            #  print(plot1,plot2)
 
     def wpSched(self,plot):
         url=plot[0]
@@ -51,6 +55,7 @@ class leaderShip:
         staff=plot[4]
         content=plot[5]
         download_area=plot[6]
+        #  print(title)
         try:
             post_cache=url+'_'+str(len(content+download_area))
             x=0
@@ -73,6 +78,7 @@ class leaderShip:
             print('没有采集到下载资源……')
 
     def editToWp(self,*plot):
+        #  print(plot)
         plot=plot[0]
         url=plot[0]
         title=plot[1]
@@ -94,12 +100,13 @@ class leaderShip:
             else:
                 self.cacheD[n]=self.cacheD[n]+'\n'
         #避免重复上传 feature_img,img_list
-        feature_img=''
         img_list=[]
         tag_list=[]
         category='美剧'
         content=content+'<hr><div id="js_down">'+download_area+'</div>'
+        #  print(title,content,feature_img)
         if title and content and feature_img and download_area:
+            print('开始修正文章：',title)
             self.wp.edit_posts(post_id,title,feature_img,staff,content,img_list,tag_list,category)
         #将新的缓存存入缓存文件
             #print('缓存url文件:',self.cacheD)

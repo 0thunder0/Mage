@@ -95,9 +95,11 @@ class mv_plugin:
         downloadArea=''
         category=''
         # ______________
-        req=urllib.request.Request(urls,headers=self.headers)
-        data=urllib.request.urlopen(req).read()
-        data=pq(data)
+        #  print(url)
+        req=urllib.request.Request(url,headers=self.headers)
+        page_source=urllib.request.urlopen(req).read()
+        data=pq(page_source)
+        #  print(data)
         title=data('.page-header').text()
         feature_img=data('.container:eq(2) .row .col-sm-9 .row .col-sm-3 img').attr('src')
         plot=data('.container:eq(2) .row .col-sm-9 .row:eq(1)').text()
@@ -130,7 +132,12 @@ class mv_plugin:
 if __name__=='__main__':
     mv=mv_plugin()
     urlList=mv.categoryParse()
+    n=0
     while True:
         url=next(urlList)
-        plot=mv.contentParse(url)
-        break
+        print(url)
+        try:
+            plot=mv.contentParse(url)
+            print(plot)
+        except:
+            print('这里出现错误')

@@ -141,6 +141,9 @@ if __name__=='__main__':
     count=1
     while True:
         url=next(urlList)
+        print(url)
         plot=mv.content_80ying_dm(url)
         print('_______________正在采集第 %s 项__________________' %count)
         count=count+1
+        print(plot)
+        break

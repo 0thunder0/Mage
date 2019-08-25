@@ -72,6 +72,7 @@ class Eurl_66e:
                 self.shieldWord[w]=self.shieldWord[w].replace('\n','')
 
     def category66e(self):
+        mainUrl='http://www.66e.cc/'
         urls='http://www.66e.cc/dsj4/'
         req=urllib.request.Request(urls,headers=self.headers)
         data = urllib.request.urlopen(req).read()
@@ -80,8 +81,8 @@ class Eurl_66e:
         detailUrl=[]
         for item in catItems:
             contentUrl=item('a').attr('href')
-            if not re.search(urls,contentUrl):
-                   contentUrl=urls+contentUrl
+            #  if not re.search(mainUrl,contentUrl):
+                   #  contentUrl=urls+contentUrl
             #print('采集到的内页地址：',contentUrl)
             yield contentUrl
 
@@ -95,6 +96,7 @@ class Eurl_66e:
         downloadArea=''
         category=''
         # ______________
+        print(url)
         req=urllib.request.Request(url,headers=self.headers)
         data=urllib.request.urlopen(req).read()
         data=pq(data)
@@ -135,5 +137,7 @@ if __name__=='__main__':
     urlList=mv.category66e()
     while True:
         url=next(urlList)
+        print(url)
         plot=mv.content66e(url)
+        print(plot)
         break
