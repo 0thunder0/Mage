@@ -145,7 +145,7 @@ class thz_torrent:
         #_______________
         if ']' in title:
             torrent_name_temp=title.split(']')
-            torrent_name=torrent_name_temp[0]+']_'+actor+'_'+torrent_name_temp[1]
+            torrent_name=torrent_name_temp[0]+']_'+actor+'_'+torrent_name_temp[1].replace('/','-')
         else:
             torrent_name=title
         torrent_path='./'+torrent_name
@@ -156,6 +156,9 @@ class thz_torrent:
         for img_down in imgs:
             if img_down:
                 img_name_temp=img_down.split('/')[-1]
+                print(img_down)
+                if 'http' not in img_down:
+                    img_down=self.mainUrl+img_down
                 urllib.request.urlretrieve(img_down,'./'+torrent_name+'_'+img_name_temp)
         return url,torrent_name
         
